@@ -42,8 +42,10 @@ namespace api.Repository
             }
 
             exisingEssentialOil.Note = essentialOilDto.Note;
-            exisingEssentialOil.Tags = essentialOilDto.Tags;
-            exisingEssentialOil.PersonalTags = essentialOilDto.PersonalTags;
+            exisingEssentialOil.Tags = essentialOilDto.Tags
+                .Select(tag => new EssentialOilTag { TagId = tag, EssentialOilId = exisingEssentialOil.Id })
+                .ToList();
+            // exisingEssentialOil.PersonalTags = essentialOilDto.PersonalTags;
 
             await _context.SaveChangesAsync();
             return exisingEssentialOil;

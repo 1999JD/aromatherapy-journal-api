@@ -17,17 +17,24 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
         // 精油與標籤關聯
-        modelBuilder.Entity<EssentialOil>()
-            .HasMany(e => e.Tags)
-            .WithMany(e => e.EssentialOils)
-            .UsingEntity<EssentialOilTag>();
+        modelBuilder.Entity<EssentialOilTag>()
+            .HasKey(e => new { e.EssentialOilId, e.TagId });
+
+        modelBuilder.Entity<EssentialOilTag>()
+            .HasOne(e => e.EssentialOil)
+            .WithMany(e => e.Tags)
+            .HasForeignKey(e => e.EssentialOilId);
 
         // 精油與個人標籤關聯
-        modelBuilder.Entity<EssentialOil>()
-            .HasMany(e => e.PersonalTags)
-            .WithMany(e => e.EssentialOils)
-            .UsingEntity<EssentialOilPersonalTag>();
+        modelBuilder.Entity<EssentialOilPersonalTag>()
+            .HasKey(e => new { e.EssentialOilId, e.PersonalTagId });
+
+        modelBuilder.Entity<EssentialOilPersonalTag>()
+            .HasOne(e => e.EssentialOil)
+            .WithMany(e => e.PersonalTags)
+            .HasForeignKey(e => e.EssentialOilId);
     }
 
 }

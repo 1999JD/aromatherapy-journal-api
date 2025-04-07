@@ -11,8 +11,8 @@ namespace api.Models
     {
         public int Id { get; set; }
         public string Note { get; set; } = string.Empty;
-        public List<Tag> Tags { get; set; } = new List<Tag>();
-        public List<PersonalTag> PersonalTags { get; set; } = new List<PersonalTag
+        public List<EssentialOilTag> Tags { get; set; } = new List<EssentialOilTag>();
+        public List<EssentialOilPersonalTag> PersonalTags { get; set; } = new List<EssentialOilPersonalTag
         >();
     }
 }

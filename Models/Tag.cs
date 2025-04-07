@@ -12,6 +12,6 @@ namespace api.Models
         public int Id { get; set; }
         public required string Name { get; set; }
 
-        public List<EssentialOil> EssentialOils { get; set; } = new List<EssentialOil>();
+        public List<EssentialOilTag> EssentialOils { get; set; } = new List<EssentialOilTag>();
     }
 }

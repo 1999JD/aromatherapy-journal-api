@@ -15,19 +15,25 @@ namespace api.Mappers
             {
                 Id = essentialOilModel.Id,
                 Note = essentialOilModel.Note,
-                Tags = essentialOilModel.Tags,
-                PersonalTags = essentialOilModel.PersonalTags
+                Tags = essentialOilModel.Tags.Select(x =>
+                  x.Tag).ToList(),
+                // PersonalTags = essentialOilModel.PersonalTags
             };
 
         }
-        
+
         public static EssentialOil ToEssentialOilFromCreateDto(this CreateEssentialOilRequestDto essentialOilDto)
         {
             return new EssentialOil
             {
                 Note = essentialOilDto.Note,
-                Tags = essentialOilDto.Tags,
-                PersonalTags = essentialOilDto.PersonalTags
+                Tags = essentialOilDto.Tags.Select(x =>
+                    new EssentialOilTag
+                    {
+                        TagId = x
+                    }).ToList(
+                ),
+                // PersonalTags = essentialOilDto.PersonalTags
             };
 
         }

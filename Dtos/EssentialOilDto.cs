@@ -19,15 +19,15 @@ namespace api.Dtos
     public class UpdateEssentialOilRequestDto
     {
         public string Note { get; set; } = string.Empty;
-        public List<Tag> Tags { get; set; } = new List<Tag>();
-        public List<PersonalTag> PersonalTags { get; set; } = new List<PersonalTag>();
+        public List<int> Tags { get; set; } = new List<int>();
+        public List<int> PersonalTags { get; set; } = new List<int>();
 
     }
 
     public class CreateEssentialOilRequestDto
     {
         public string Note { get; set; } = string.Empty;
-        public List<Tag> Tags { get; set; } = new List<Tag>();
-        public List<PersonalTag> PersonalTags { get; set; } = new List<PersonalTag>();
+        public List<int> Tags { get; set; } = new List<int>();
+        public List<int> PersonalTags { get; set; } = new List<int>();
     }
 }

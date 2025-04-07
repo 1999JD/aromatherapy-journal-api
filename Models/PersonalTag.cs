@@ -15,7 +15,6 @@ namespace api.Models
         public int UserId { get; set; }  // 外鍵
         public User User { get; set; }  // 導覽屬性
 
-        public List<EssentialOil> EssentialOils { get; set; } = new List<EssentialOil>();
     }
 
 }
