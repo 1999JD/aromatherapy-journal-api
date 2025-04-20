@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Models;
 using api.Dtos;
+using api.Mappers;
 
 namespace api.Mappers
 {
@@ -14,9 +15,20 @@ namespace api.Mappers
             return new EssentialOilDto
             {
                 Id = essentialOilModel.Id,
+                Name = essentialOilModel.Name,
+                EnglishName = essentialOilModel.EnglishName,
+                ScientificName = essentialOilModel.ScientificName,
                 Note = essentialOilModel.Note,
                 Tags = essentialOilModel.Tags.Select(x =>
-                  x.Tag).ToList(),
+                {
+                    Console.WriteLine($"Tag: {x.Tag}");
+                    return new TagDto
+                    {
+                        Id = x.Tag.Id,
+                        Name = x.Tag.Name
+                    };
+                }).ToList()
+
                 // PersonalTags = essentialOilModel.PersonalTags
             };
 
@@ -27,15 +39,18 @@ namespace api.Mappers
             return new EssentialOil
             {
                 Note = essentialOilDto.Note,
+                Name = essentialOilDto.Name,
+                EnglishName = essentialOilDto.EnglishName,
                 Tags = essentialOilDto.Tags.Select(x =>
-                    new EssentialOilTag
-                    {
-                        TagId = x
-                    }).ToList(
-                ),
-                // PersonalTags = essentialOilDto.PersonalTags
+                 {
+                     return new EssentialOilTag
+                     {
+                         TagId = x,
+                     };
+                 }).ToList()
             };
-
+            // PersonalTags = essentialOilDto.PersonalTags
         }
     }
+
 }

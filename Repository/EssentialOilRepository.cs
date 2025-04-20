@@ -18,7 +18,10 @@ namespace api.Repository
         }
         public async Task<List<EssentialOil>> GetAllAsync()
         {
-            var essentialOils = await _context.EssentialOils.ToListAsync();
+            var essentialOils = await _context.EssentialOils
+                .Include(e => e.Tags)
+                .ThenInclude(et => et.Tag)
+                .ToListAsync();
             return essentialOils;
         }
 
@@ -42,8 +45,10 @@ namespace api.Repository
             }
 
             exisingEssentialOil.Note = essentialOilDto.Note;
+            exisingEssentialOil.Tags.Clear();
+
             exisingEssentialOil.Tags = essentialOilDto.Tags
-                .Select(tag => new EssentialOilTag { TagId = tag, EssentialOilId = exisingEssentialOil.Id })
+                .Select(tagId => new EssentialOilTag { TagId = tagId, EssentialOilId = exisingEssentialOil.Id })
                 .ToList();
             // exisingEssentialOil.PersonalTags = essentialOilDto.PersonalTags;
 

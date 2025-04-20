@@ -12,5 +12,14 @@ namespace api.Dtos
         public required string Name { get; set; }
     }
 
+    public class CreateTagRequestDto
+    {
+        public string Name { get; set; } = string.Empty;
+    }
+
+    public class UpdateTagRequestDto
+    {
+        public string Name { get; set; } = string.Empty;
+    }
 
 }

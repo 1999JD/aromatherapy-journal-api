@@ -20,8 +20,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 
 builder.Services.AddScoped<IEssentialOilRepository, EssentialOilRepository>();
+builder.Services.AddScoped<ITagRepository, TagRepository>();
 
 var app = builder.Build();
+app.MapControllers(); // 這一行很重要！
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
