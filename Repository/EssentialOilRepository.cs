@@ -27,49 +27,51 @@ namespace api.Repository
 
         public async Task<EssentialOil> GetByIdAsync(int id)
         {
-            return await _context.EssentialOils.FirstOrDefaultAsync(x => x.Id == id);
+            var essentialOil = await _context.EssentialOils
+                .Include(e => e.Tags)
+                .ThenInclude(et => et.Tag)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return essentialOil ?? throw new InvalidOperationException($"Essential oil with ID {id} not found.");
         }
 
         public async Task<EssentialOil> CreateAsync(EssentialOil essentialOilModel)
         {
             await _context.EssentialOils.AddAsync(essentialOilModel);
             await _context.SaveChangesAsync();
-            return essentialOilModel;
+            return await _context.EssentialOils
+                .Include(e => e.Tags)
+                .ThenInclude(et => et.Tag)
+                .FirstAsync(e => e.Id == essentialOilModel.Id);
         }
         public async Task<EssentialOil> UpdateAsync(int id, UpdateEssentialOilRequestDto essentialOilDto)
         {
-            var exisingEssentialOil = await _context.EssentialOils.FirstOrDefaultAsync(x => x.Id == id);
-            if (exisingEssentialOil == null)
+            var existingEssentialOil = await _context.EssentialOils.Include(e => e.Tags)
+                .ThenInclude(et => et.Tag).FirstOrDefaultAsync(x => x.Id == id);
+            if (existingEssentialOil == null)
             {
-                return null;
+                throw new KeyNotFoundException($"Essential oil with ID {id} not found.");
             }
 
-            exisingEssentialOil.Note = essentialOilDto.Note;
-            exisingEssentialOil.Tags.Clear();
-
-            exisingEssentialOil.Tags = essentialOilDto.Tags
-                .Select(tagId => new EssentialOilTag { TagId = tagId, EssentialOilId = exisingEssentialOil.Id })
+            existingEssentialOil.Note = essentialOilDto.Note;
+            existingEssentialOil.Tags = essentialOilDto.Tags
+                .Select(tagId => new EssentialOilTag { TagId = tagId, EssentialOilId = existingEssentialOil.Id })
                 .ToList();
-            // exisingEssentialOil.PersonalTags = essentialOilDto.PersonalTags;
-
             await _context.SaveChangesAsync();
-            return exisingEssentialOil;
+            return existingEssentialOil;
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var exisingEssentialOil = await _context.EssentialOils.FirstOrDefaultAsync(x => x.Id == id);
-            if (exisingEssentialOil == null)
+            var existingEssentialOil = await _context.EssentialOils.FirstOrDefaultAsync(x => x.Id == id);
+            if (existingEssentialOil == null)
             {
                 return false;
             }
-            _context.EssentialOils.Remove(exisingEssentialOil);
+            _context.EssentialOils.Remove(existingEssentialOil);
             await _context.SaveChangesAsync();
             return true;
         }
-
-
-
-
     }
 }
+
