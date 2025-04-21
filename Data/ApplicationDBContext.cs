@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using api.Models;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<AppUser>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -14,6 +16,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<EssentialOilTag> EssentialOilTags { get; set; }
     public DbSet<PersonalTag> PersonalTags { get; set; }
     public DbSet<EssentialOilPersonalTag> EssentialOilPersonalTags { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -35,6 +38,22 @@ public class ApplicationDbContext : DbContext
             .HasOne(e => e.EssentialOil)
             .WithMany(e => e.PersonalTags)
             .HasForeignKey(e => e.EssentialOilId);
+
+        List<IdentityRole> roles = new List<IdentityRole>
+            {
+                new IdentityRole
+                {
+                    Name = "Admin",
+                    NormalizedName = "ADMIN"
+                },
+                new IdentityRole
+                {
+                    Name = "User",
+                    NormalizedName = "USER"
+                },
+            };
+        modelBuilder.Entity<IdentityRole>().HasData(roles);
+
     }
 
 }
