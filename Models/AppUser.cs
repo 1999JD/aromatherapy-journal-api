@@ -8,5 +8,8 @@ namespace api.Models
 {
     public class AppUser : IdentityUser
     {
+        public List<PersonalTag> PersonalTags { get; set; } = new List<PersonalTag>();
+
+
     }
 }

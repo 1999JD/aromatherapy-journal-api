@@ -20,6 +20,8 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
 
         // 精油與標籤關聯
         modelBuilder.Entity<EssentialOilTag>()
