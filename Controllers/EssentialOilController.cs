@@ -8,6 +8,7 @@ using api.Interfaces;
 using api.Mappers;
 using api.Dtos;
 using api.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace api.Controllers
 {
@@ -26,6 +27,7 @@ namespace api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var essentialOils = await _essentialOilRepo.GetAllAsync();

@@ -11,10 +11,9 @@ namespace api.Models
     {
         public int Id { get; set; }
         public required string Name { get; set; }
-        [ForeignKey("User")]
-        public int UserId { get; set; }  // 外鍵
-        public User User { get; set; }  // 導覽屬性
-
+        // 外鍵
+        public string AppUserId { get; set; }
+        public AppUser AppUser { get; set; }
     }
 
 }
