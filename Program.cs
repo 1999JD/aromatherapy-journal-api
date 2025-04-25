@@ -14,6 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
@@ -84,8 +86,20 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(
             System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"])
-        ),
-        ValidAlgorithms = new[] { SecurityAlgorithms.HmacSha256 },
+        )
+    };
+    options.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            Console.WriteLine($"JWT Auth failed: {context.Exception.Message}");
+            return Task.CompletedTask;
+        },
+        OnTokenValidated = context =>
+        {
+            Console.WriteLine("JWT validated successfully");
+            return Task.CompletedTask;
+        }
     };
 });
 
@@ -94,11 +108,9 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddScoped<IEssentialOilRepository, EssentialOilRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IPersonalTagRepository, PersonalTagRepository>();
 
 var app = builder.Build();
-app.UseAuthentication();
-app.UseAuthorization();
-app.MapControllers(); // 這一行很重要！
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -106,6 +118,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers(); // 這一行很重要！
 
 // app.UseHttpsRedirection();
 
