@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace api.Helpers
 {
-    public class PersonalTagQueryObject
+    public class EssentialOilQueryObject
     {
-        
+
     }
 }

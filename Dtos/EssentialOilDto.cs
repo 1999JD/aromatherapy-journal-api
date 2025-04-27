@@ -15,7 +15,7 @@ namespace api.Dtos
         public string ScientificName { get; set; } = string.Empty;
         public string Note { get; set; } = string.Empty;
         public List<TagDto> Tags { get; set; } = new List<TagDto>();
-        public List<PersonalTag> PersonalTags { get; set; } = new List<PersonalTag
+        public List<PersonalTagDto> PersonalTags { get; set; } = new List<PersonalTagDto
         >();
 
     }

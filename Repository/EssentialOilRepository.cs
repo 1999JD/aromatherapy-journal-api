@@ -16,13 +16,15 @@ namespace api.Repository
         {
             _context = context;
         }
-        public async Task<List<EssentialOil>> GetAllAsync()
+        public async Task<List<EssentialOil>> GetAllAsync(string userId)
         {
-            var essentialOils = await _context.EssentialOils
+            var essentialOils = _context.EssentialOils
                 .Include(e => e.Tags)
-                .ThenInclude(et => et.Tag)
-                .ToListAsync();
-            return essentialOils;
+                    .ThenInclude(et => et.Tag)
+                .Include(e => e.PersonalTags.Where(et => et.PersonalTag.AppUserId == userId)) // 🎯
+                    .ThenInclude(et => et.PersonalTag)
+                .AsQueryable();
+            return await essentialOils.ToListAsync();
         }
 
         public async Task<EssentialOil> GetByIdAsync(int id)
@@ -30,6 +32,8 @@ namespace api.Repository
             var essentialOil = await _context.EssentialOils
                 .Include(e => e.Tags)
                 .ThenInclude(et => et.Tag)
+                .Include(e => e.PersonalTags)
+                .ThenInclude(et => et.PersonalTag)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             return essentialOil ?? throw new InvalidOperationException($"Essential oil with ID {id} not found.");
@@ -42,12 +46,15 @@ namespace api.Repository
             return await _context.EssentialOils
                 .Include(e => e.Tags)
                 .ThenInclude(et => et.Tag)
+                .Include(e => e.PersonalTags)
+                .ThenInclude(et => et.PersonalTag)
                 .FirstAsync(e => e.Id == essentialOilModel.Id);
         }
-        public async Task<EssentialOil> UpdateAsync(int id, UpdateEssentialOilRequestDto essentialOilDto)
+        public async Task<EssentialOil> UpdateAsync(int id, UpdateEssentialOilRequestDto essentialOilDto, string userId)
         {
             var existingEssentialOil = await _context.EssentialOils.Include(e => e.Tags)
-                .ThenInclude(et => et.Tag).FirstOrDefaultAsync(x => x.Id == id);
+                .ThenInclude(et => et.Tag).Include(e => e.PersonalTags)
+                .ThenInclude(et => et.PersonalTag).FirstOrDefaultAsync(x => x.Id == id);
             if (existingEssentialOil == null)
             {
                 throw new KeyNotFoundException($"Essential oil with ID {id} not found.");
@@ -56,6 +63,21 @@ namespace api.Repository
             existingEssentialOil.Note = essentialOilDto.Note;
             existingEssentialOil.Tags = essentialOilDto.Tags
                 .Select(tagId => new EssentialOilTag { TagId = tagId, EssentialOilId = existingEssentialOil.Id })
+                .ToList();
+
+            // (2) 驗證 PersonalTags
+            var validPersonalTagIds = await _context.PersonalTags
+                .Where(pt => essentialOilDto.PersonalTags.Contains(pt.Id) && pt.AppUserId == userId)
+                .Select(pt => pt.Id)
+                .ToListAsync();
+
+            if (validPersonalTagIds.Count != essentialOilDto.PersonalTags.Count)
+            {
+                throw new UnauthorizedAccessException("Some PersonalTagIds do not belong to the current user.");
+            }
+
+            existingEssentialOil.PersonalTags = essentialOilDto.PersonalTags
+                .Select(personalTagId => new EssentialOilPersonalTag { PersonalTagId = personalTagId, EssentialOilId = existingEssentialOil.Id })
                 .ToList();
             await _context.SaveChangesAsync();
             return existingEssentialOil;

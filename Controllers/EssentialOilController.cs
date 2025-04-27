@@ -9,6 +9,9 @@ using api.Mappers;
 using api.Dtos;
 using api.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using api.Extensions;
+using api.Helpers;
 
 namespace api.Controllers
 {
@@ -18,19 +21,32 @@ namespace api.Controllers
     {
 
         private readonly ApplicationDbContext _context;
+
+        private readonly UserManager<AppUser> _userManager;
         private readonly IEssentialOilRepository _essentialOilRepo;
 
-        public EssentialOilController(ApplicationDbContext context, IEssentialOilRepository essentialOilRepo)
+        public EssentialOilController(ApplicationDbContext context, IEssentialOilRepository essentialOilRepo, UserManager<AppUser> userManager)
         {
             _essentialOilRepo = essentialOilRepo;
             _context = context;
+            _userManager = userManager;
         }
 
         [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> GetAll()
+        [AllowAnonymous] // 🔥 加上這行！允許匿名存取
+        public async Task<IActionResult> GetAll([FromQuery] EssentialOilQueryObject queryObject)
         {
-            var essentialOils = await _essentialOilRepo.GetAllAsync();
+            string? userId = null;
+            Console.WriteLine($"相關資料 {User.Identity} {User.Identity.IsAuthenticated}");
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                var username = User.GetUsername();
+                var appUser = await _userManager.FindByNameAsync(username);
+                userId = appUser?.Id;
+            }
+            Console.WriteLine($"userId {userId}");
+
+            var essentialOils = await _essentialOilRepo.GetAllAsync(userId);
 
             var essentialOilDto = essentialOils.Select(x => x.ToEssentialOilDto()).ToList();
             return Ok(essentialOilDto);
@@ -60,7 +76,10 @@ namespace api.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateEssentialOilRequestDto essentialOilDto)
         {
-            var essentialOil = await _essentialOilRepo.UpdateAsync(id, essentialOilDto);
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
+
+            var essentialOil = await _essentialOilRepo.UpdateAsync(id, essentialOilDto, appUser.Id);
             if (essentialOil == null)
             {
                 return NotFound();

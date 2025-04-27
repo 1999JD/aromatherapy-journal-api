@@ -8,10 +8,10 @@ namespace api.Interfaces
 {
     public interface IEssentialOilRepository
     {
-        Task<List<EssentialOil>> GetAllAsync();
+        Task<List<EssentialOil>> GetAllAsync(string userId);
         Task<EssentialOil> GetByIdAsync(int id);
         Task<EssentialOil> CreateAsync(EssentialOil essentialOil);
-        Task<EssentialOil> UpdateAsync(int id, UpdateEssentialOilRequestDto essentialOil);
+        Task<EssentialOil> UpdateAsync(int id, UpdateEssentialOilRequestDto essentialOil, string userId);
         Task<bool> DeleteAsync(int id);
 
     }

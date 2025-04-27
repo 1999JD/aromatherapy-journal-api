@@ -21,15 +21,20 @@ namespace api.Mappers
                 Note = essentialOilModel.Note,
                 Tags = essentialOilModel.Tags.Select(x =>
                 {
-                    Console.WriteLine($"Tag: {x.Tag}");
                     return new TagDto
                     {
                         Id = x.Tag.Id,
                         Name = x.Tag.Name
                     };
+                }).ToList(),
+                PersonalTags = essentialOilModel.PersonalTags.Select(x =>
+                {
+                    return new PersonalTagDto
+                    {
+                        Id = x.PersonalTag.Id,
+                        Name = x.PersonalTag.Name
+                    };
                 }).ToList()
-
-                // PersonalTags = essentialOilModel.PersonalTags
             };
 
         }
