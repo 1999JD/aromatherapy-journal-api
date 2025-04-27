@@ -10,9 +10,9 @@ namespace api.Mappers
 {
     public static class PersonalTagMappers
     {
-        public static PersonalTag ToPersonalTagDto(this PersonalTag personalTagModel)
+        public static PersonalTagDto ToPersonalTagDto(this PersonalTag personalTagModel)
         {
-            return new PersonalTag
+            return new PersonalTagDto
             {
                 Id = personalTagModel.Id,
                 Name = personalTagModel.Name

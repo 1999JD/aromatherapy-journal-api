@@ -9,10 +9,10 @@ namespace api.Interfaces
 {
     public interface IPersonalTagRepository
     {
-        Task<List<PersonalTag>> GetAllAsync();
-        Task<PersonalTag> GetByIdAsync(int id);
+        Task<List<PersonalTag>> GetAllAsync(string userId);
+        Task<PersonalTag> GetByIdAsync(int id, string userId);
         Task<PersonalTag> CreateAsync(PersonalTag personalTag);
-        Task<PersonalTag> UpdateAsync(int id, UpdatePersonalTagRequestDto personalTag);
-        Task<bool> DeleteAsync(int id);
+        Task<PersonalTag> UpdateAsync(int id, UpdatePersonalTagRequestDto personalTag, string userId);
+        Task<bool> DeleteAsync(int id, string userId);
     }
 }

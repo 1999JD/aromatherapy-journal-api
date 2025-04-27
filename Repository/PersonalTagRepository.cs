@@ -17,15 +17,17 @@ namespace api.Repository
             _context = context;
         }
 
-        public async Task<List<PersonalTag>> GetAllAsync()
+        public async Task<List<PersonalTag>> GetAllAsync(string userId)
         {
-            var personalTags = _context.PersonalTags.Include(a => a.AppUser).AsQueryable();
-            return await personalTags.ToListAsync();
+
+            var personalTags = _context.PersonalTags
+                .Include(a => a.AppUser).Where(b => b.AppUser.Id == userId).ToListAsync();
+            return await personalTags;
         }
 
-        public async Task<PersonalTag> GetByIdAsync(int id)
+        public async Task<PersonalTag> GetByIdAsync(int id, string userId)
         {
-            var personalTag = await _context.PersonalTags.FirstOrDefaultAsync(x => x.Id == id);
+            var personalTag = await _context.PersonalTags.Include(a => a.AppUser).Where(b => b.AppUser.Id == userId).FirstOrDefaultAsync(x => x.Id == id);
             return personalTag;
         }
 
@@ -35,10 +37,15 @@ namespace api.Repository
             await _context.SaveChangesAsync();
             return personalTagModel;
         }
-        public async Task<PersonalTag> UpdateAsync(int id, UpdatePersonalTagRequestDto personalTagDto)
+        public async Task<PersonalTag> UpdateAsync(int id, UpdatePersonalTagRequestDto personalTagDto, string userId)
         {
+
             var exisingPersonalTag = await _context.PersonalTags.FirstOrDefaultAsync(x => x.Id == id);
             if (exisingPersonalTag == null)
+            {
+                return null;
+            }
+            if (exisingPersonalTag.AppUserId != userId)
             {
                 return null;
             }
@@ -47,10 +54,14 @@ namespace api.Repository
             return exisingPersonalTag;
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id, string userId)
         {
             var exisingPersonalTag = await _context.PersonalTags.FirstOrDefaultAsync(x => x.Id == id);
             if (exisingPersonalTag == null)
+            {
+                return false;
+            }
+            if (exisingPersonalTag.AppUserId != userId)
             {
                 return false;
             }
