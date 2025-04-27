@@ -41,11 +41,6 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
             .WithMany(e => e.PersonalTags)
             .HasForeignKey(e => e.EssentialOilId);
 
-        // 1-to-Many
-        modelBuilder.Entity<PersonalTag>()
-            .HasOne(pt => pt.AppUser)
-            .WithMany()                     // ← 不傳 collection name
-            .HasForeignKey(pt => pt.AppUserId);
 
         List<IdentityRole> roles = new List<IdentityRole>
             {
