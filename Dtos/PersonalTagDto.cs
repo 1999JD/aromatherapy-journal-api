@@ -10,16 +10,19 @@ namespace api.Dtos
     {
         public int Id { get; set; }
         public required string Name { get; set; }
+        public string Color { get; set; } = string.Empty;
     }
 
     public class CreatePersonalTagRequestDto
     {
         public string Name { get; set; } = string.Empty;
+        public string Color { get; set; } = string.Empty;
     }
 
     public class UpdatePersonalTagRequestDto
     {
         public string Name { get; set; } = string.Empty;
+        public string Color { get; set; } = string.Empty;
     }
 
 }

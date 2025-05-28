@@ -16,6 +16,7 @@ namespace api.Mappers
             {
                 Id = tagModel.Id,
                 Name = tagModel.Name,
+                Color = tagModel.Color,
             };
         }
 
@@ -24,6 +25,7 @@ namespace api.Mappers
             return new Tag
             {
                 Name = tagDto.Name,
+                Color = tagDto.Color,
             };
         }
     }

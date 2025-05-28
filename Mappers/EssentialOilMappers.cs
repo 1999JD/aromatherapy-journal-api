@@ -24,7 +24,8 @@ namespace api.Mappers
                     return new TagDto
                     {
                         Id = x.Tag.Id,
-                        Name = x.Tag.Name
+                        Name = x.Tag.Name,
+                        Color = x.Tag.Color
                     };
                 }).ToList(),
                 PersonalTags = essentialOilModel.PersonalTags.Select(x =>
@@ -32,7 +33,8 @@ namespace api.Mappers
                     return new PersonalTagDto
                     {
                         Id = x.PersonalTag.Id,
-                        Name = x.PersonalTag.Name
+                        Name = x.PersonalTag.Name,
+                        Color = x.PersonalTag.Color
                     };
                 }).ToList()
             };

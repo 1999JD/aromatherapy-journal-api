@@ -11,6 +11,7 @@ namespace api.Models
     {
         public int Id { get; set; }
         public required string Name { get; set; }
+        public string Color { get; set; }
         // 外鍵
         public string AppUserId { get; set; }
         public AppUser AppUser { get; set; }

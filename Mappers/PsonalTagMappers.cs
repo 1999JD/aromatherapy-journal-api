@@ -15,8 +15,8 @@ namespace api.Mappers
             return new PersonalTagDto
             {
                 Id = personalTagModel.Id,
-                Name = personalTagModel.Name
-
+                Name = personalTagModel.Name,
+                Color = personalTagModel.Color
             };
 
         }
@@ -26,6 +26,7 @@ namespace api.Mappers
             return new PersonalTag
             {
                 Name = personalTag.Name,
+                Color = personalTag.Color
 
             };
         }

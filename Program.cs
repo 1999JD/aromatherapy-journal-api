@@ -124,6 +124,17 @@ app.UseAuthorization();
 app.MapControllers(); // 這一行很重要！
 
 // app.UseHttpsRedirection();
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var jsonPath = "Data/essential-oils.json";
+    if (!File.Exists(jsonPath))
+    {
+        Console.WriteLine($"❌ JSON file not found at path: {jsonPath}");
+        return;
+    }
+    await EssentialOilSeeder.SeedFromJsonAsync(db, "Data/essential-oils.json");
+}
 
 
 app.Run();

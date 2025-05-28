@@ -1,0 +1,192 @@
+[
+    {
+        "id": 1,
+        "name": "Highland Lavender",
+        "note": "Highland True Lavender Essential Oil is distilled from Lavandula angustifolia grown at high altitudes. \n Its gentle floral aroma promotes deep relaxation and emotional balance.\n Rich in esters, it soothes the skin and supports restful sleep.\n Ideal for aromatherapy, skincare, and natural stress relief.",
+        "tags": [
+            {
+                "name": "Stomache",
+                "color": "#3E8E7E"
+            },
+            {
+                "name": "Head Ache",
+                "color": "#B65F4A"
+            },
+            {
+                "name": "Sleep",
+                "color": "#235544"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Peppermint",
+        "note": "Peppermint Essential Oil is steam distilled from Mentha piperita leaves. \n Known for its invigorating minty aroma, it refreshes the mind and promotes mental clarity.\n It also soothes digestive discomfort and relieves tension headaches.\n Commonly used in massage, diffusers, and personal care.",
+        "tags": [
+            {
+                "name": "Head Ache",
+                "color": "#B65F4A"
+            },
+            {
+                "name": "Fatigue",
+                "color": "#5E4DB2"
+            },
+            {
+                "name": "Digestion",
+                "color": "#69995D"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Tea Tree",
+        "note": "Tea Tree Essential Oil is extracted from the leaves of Melaleuca alternifolia.\n It possesses strong antibacterial and antifungal properties.\n Supports clear skin, immune defense, and respiratory wellness.\n A staple for skincare routines and DIY cleaning solutions.",
+        "tags": [
+            {
+                "name": "Acne",
+                "color": "#FF6F61"
+            },
+            {
+                "name": "Immunity",
+                "color": "#00796B"
+            },
+            {
+                "name": "Skin Care",
+                "color": "#4C8C4A"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Sweet Orange",
+        "note": "Sweet Orange Essential Oil is cold-pressed from Citrus sinensis peels.\n Its bright citrus scent uplifts mood and reduces stress.\n Helps with digestion and refreshes the air when diffused.\n Ideal for emotional wellness and natural cleaning.",
+        "tags": [
+            {
+                "name": "Mood Boost",
+                "color": "#FFA500"
+            },
+            {
+                "name": "Digestion",
+                "color": "#69995D"
+            },
+            {
+                "name": "Stress Relief",
+                "color": "#235544"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "name": "Frankincense",
+        "note": "Frankincense Essential Oil is steam distilled from the resin of Boswellia trees.\n Revered for its grounding and meditative qualities.\n Supports healthy skin, reduces signs of aging, and enhances deep breathing.\n Frequently used in spiritual rituals and skincare.",
+        "tags": [
+            {
+                "name": "Meditation",
+                "color": "#6D4C41"
+            },
+            {
+                "name": "Skin Care",
+                "color": "#4C8C4A"
+            },
+            {
+                "name": "Anxiety",
+                "color": "#3F51B5"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "name": "Eucalyptus",
+        "note": "Eucalyptus Essential Oil is distilled from Eucalyptus globulus leaves.\n Its crisp aroma promotes respiratory clarity and soothes muscle aches.\n Known for its decongestant properties and energizing effect.\n Excellent for inhalation and muscle rubs.",
+        "tags": [
+            {
+                "name": "Respiratory",
+                "color": "#0277BD"
+            },
+            {
+                "name": "Fatigue",
+                "color": "#5E4DB2"
+            },
+            {
+                "name": "Pain Relief",
+                "color": "#AD1457"
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "name": "Ylang Ylang",
+        "note": "Ylang Ylang Essential Oil is steam distilled from the Cananga odorata flower.\n Its exotic floral scent calms the heart and eases emotional tension.\n Helps balance sebum production and supports romantic moods.\n Popular in perfumes and skincare.",
+        "tags": [
+            {
+                "name": "Anxiety",
+                "color": "#3F51B5"
+            },
+            {
+                "name": "Romance",
+                "color": "#E91E63"
+            },
+            {
+                "name": "Oily Skin",
+                "color": "#8BC34A"
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "name": "Lemongrass",
+        "note": "Lemongrass Essential Oil is extracted from Cymbopogon citratus.\n It has a fresh, citrusy aroma that revitalizes the senses.\n Known for anti-inflammatory effects, it supports pain relief and natural insect repellent.\n Great for massage oils and sprays.",
+        "tags": [
+            {
+                "name": "Inflammation",
+                "color": "#FF8F00"
+            },
+            {
+                "name": "Bug Repellent",
+                "color": "#33691E"
+            },
+            {
+                "name": "Muscle Pain",
+                "color": "#C2185B"
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "name": "Rosemary",
+        "note": "Rosemary Essential Oil is steam distilled from Rosmarinus officinalis leaves.\n Enhances memory, mental alertness, and hair growth.\n Its herbal scent awakens the senses and supports respiratory health.\n Common in haircare and concentration blends.",
+        "tags": [
+            {
+                "name": "Focus",
+                "color": "#512DA8"
+            },
+            {
+                "name": "Hair Growth",
+                "color": "#6A1B9A"
+            },
+            {
+                "name": "Respiratory",
+                "color": "#0277BD"
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "name": "Chamomile Roman",
+        "note": "Chamomile Roman Essential Oil is distilled from Anthemis nobilis flowers.\n Gentle and calming, it’s ideal for sensitive skin and promoting restful sleep.\n Reduces irritation and soothes emotional distress.\n Perfect for bedtime rituals and baby care.",
+        "tags": [
+            {
+                "name": "Sleep",
+                "color": "#235544"
+            },
+            {
+                "name": "Irritation",
+                "color": "#FFA07A"
+            },
+            {
+                "name": "Stress Relief",
+                "color": "#235544"
+            }
+        ]
+    }
+]
