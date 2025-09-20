@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Dtos;
+using api.Helpers;
 using api.Interfaces;
 using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
@@ -24,11 +25,31 @@ namespace api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] PaginationQuery paginationQuery)
         {
-            var tags = await _tagRepo.GetAllAsync();
-            var tagDto = tags.Select(x => x.ToTagDto()).ToList();
-            return Ok(tagDto);
+            var pageNumber = paginationQuery?.PageNumber ?? 1;
+            if (pageNumber <= 0)
+            {
+                pageNumber = 1;
+            }
+
+            var pageSize = paginationQuery?.PageSize ?? 10;
+            if (pageSize <= 0)
+            {
+                pageSize = 10;
+            }
+
+            var pagedTags = await _tagRepo.GetAllAsync(pageNumber, pageSize);
+
+            var response = new PagedResult<TagDto>
+            {
+                Items = pagedTags.Items.Select(x => x.ToTagDto()).ToList(),
+                PageNumber = pagedTags.PageNumber,
+                PageSize = pagedTags.PageSize,
+                TotalCount = pagedTags.TotalCount
+            };
+
+            return Ok(response);
         }
 
         [HttpGet("{id:int}")]

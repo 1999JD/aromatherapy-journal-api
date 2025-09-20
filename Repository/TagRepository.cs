@@ -6,20 +6,47 @@ using api.Models;
 using api.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using api.Dtos;
+using api.Helpers;
 
 namespace api.Repository
 {
     public class TagRepository : ITagRepository
     {
+        private const int DefaultPageSize = 10;
         private readonly ApplicationDbContext _context;
+
         public TagRepository(ApplicationDbContext context)
         {
             _context = context;
         }
-        public async Task<List<Tag>> GetAllAsync()
+
+        public async Task<PagedResult<Tag>> GetAllAsync(int pageNumber, int pageSize)
         {
-            var tags = await _context.Tags.ToListAsync();
-            return tags;
+            if (pageNumber <= 0)
+            {
+                pageNumber = 1;
+            }
+
+            if (pageSize <= 0)
+            {
+                pageSize = DefaultPageSize;
+            }
+
+            var query = _context.Tags.AsNoTracking().OrderBy(tag => tag.Id);
+            var totalCount = await query.CountAsync();
+
+            var tags = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return new PagedResult<Tag>
+            {
+                Items = tags,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalCount = totalCount
+            };
         }
 
         public async Task<Tag> GetByIdAsync(int id)
@@ -33,6 +60,7 @@ namespace api.Repository
             await _context.SaveChangesAsync();
             return tagModel;
         }
+
         public async Task<Tag> UpdateAsync(int id, UpdateTagRequestDto tagDto)
         {
             var exisingTag = await _context.Tags.FirstOrDefaultAsync(x => x.Id == id);
@@ -40,6 +68,7 @@ namespace api.Repository
             {
                 return null;
             }
+
             exisingTag.Name = tagDto.Name;
             await _context.SaveChangesAsync();
             return exisingTag;
@@ -52,10 +81,10 @@ namespace api.Repository
             {
                 return false;
             }
+
             _context.Tags.Remove(exisingTag);
             await _context.SaveChangesAsync();
             return true;
         }
-
     }
 }
